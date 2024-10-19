@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Timer</title>
+    </head>
+    <style>
+
+      #mydiv {
+      position: absolute;
+      z-index: 9;
+      background-color: #0b0b36;
+      border: 1px solid #ffffff;
+      text-align: center;
+      }
+      #rcorners {
+      border-radius: 25px;
+      border: 2px solid #73AD21;
+      padding: 20px;
+      width: 200px;
+      height: 150px;
+      };
+      
+
+      #mydivheader {
+      padding: 10px;
+      cursor: move;
+      z-index: 10;
+      color: #000000;
+      }
+        * {
+          margin: 1;
+          padding: 0.5;
+        }      
+        
+        
+        
+        
+        
+        
+        
+        
+
+        .container {
+         display: flex;
+         padding: 1rem;
+         max-width: 0%;
+         text-align: center;
+         position: static;
+         border-radius: 12px;
+        }
+         
+
+       .time {
+        padding: 1rem 0.2rem;
+        font-size: 2rem;
+        }
+        h1, p {color: #ff0000;}
+        button {
+        padding: 1rem 1rem;
+        margin: 1 0.5rem;
+        border-radius: 10px;
+        border: 1px solid #000000;
+        }
+        button:hover {
+        background-color: rgba(40, 184, 50, 0.801);
+        color: #ffffff;
+        }
+    </style>
+   <body>
+      <div class="container"><div id="mydiv">
+       <h1>Stopwatch</h1>
+       <p class="time">
+        <span id="minutes">00</span>:<span id="seconds">00</span>:<span id="tens">00</span>
+       </p>
+       <button id="start">Start</button>
+       <button id="stop">Stop</button>
+       <button id="reset">Reset</button>
+      </div>
+   </body>
+
+
+   <script>
+      dragElement(document.getElementById("mydiv"));
+
+      function dragElement(elmnt) {
+      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      if (document.getElementById(elmnt.id + "header")) {
+    
+      document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+      } else {
+      elmnt.onmousedown = dragMouseDown;
+      }
+
+      function dragMouseDown(e) {
+      e = e || window.event;
+      e.preventDefault();
+              // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+              // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+      e = e || window.event;
+      e.preventDefault();
+              // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+              // set the element's new position:
+      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+            // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+      }
+     }
+      window.onload = function () {
+      let minutes = 0;
+      let seconds = 0;
+      let tens = '00';
+      let appendMinutes = document.querySelector('#minutes');
+      let appendTens = document.querySelector('#tens');
+      let appendSeconds = document.querySelector('#seconds');
+      let startBtn = document.querySelector('#start');
+      let stopBtn = document.querySelector('#stop');
+      let resetBtn = document.querySelector('#reset');
+      let Interval;
+      const startTimer = () => {
+        tens++;
+        if (tens <= 9) {
+          appendTens.innerHTML = '0' + tens;
+        }
+        if (tens > 9) {
+          appendTens.innerHTML = tens;
+        }
+        if (tens > 99) {
+          seconds++;
+          appendSeconds.innerHTML = '0' + seconds;
+          tens = 0;
+          appendTens.innerHTML = '0' + 0;
+        }
+        if (seconds > 9) {
+          appendSeconds.innerHTML = seconds;
+        }
+        if (seconds > 59) {
+          minutes++;
+          appendMinutes.innerHTML = '0' + minutes;
+          seconds = 0;
+          appendSeconds.innerHTML = '0' + 0;
+        }
+      };
+      startBtn.onclick = () => {
+        clearInterval(Interval);
+        Interval = setInterval(startTimer, 10);
+      };
+      stopBtn.onclick = () => {
+        clearInterval(Interval);
+      };
+      resetBtn.onclick = () => {
+        clearInterval(Interval);
+        tens = '00';
+        seconds = '00';
+        minutes = '0';
+        appendTens.innerHTML = tens;
+        appendSeconds.innerHTML = seconds;
+        appendMinutes.innerHMTL = minutes;
+       };
+      };
+    </script>
+ </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
